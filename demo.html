@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vue-ECharts Demo</title>
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Roboto Mono">
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Dosis:300,500&amp;text=Vue-ECharts">
+<style>
+.box{
+  height:400px;
+}
+  
+#logo svg {
+  height: 192px;
+  margin: -2.5em auto;
+}
+</style>
+</head>
+<body style="background: black;">
+
+<div id="demo">
+  <div class="box">
+	<echart-pie ref="pie1" :dimension="p" :title="title"></echart-pie>
+  </div>
+</div>
+<div id="app">
+  <div class="box">
+	<echart-bar :categories="xBar" :dimensions="yBar" title="销售分布"></echart-bar>
+  </div>
+  <div class="box">
+	<echart-pie ref="pie2" :dimension="p" title="人才引进单位比例"></echart-pie>
+  </div>
+  <div class="box">
+	<echart-line :category="xLine" :dimensions="yLine" title="13-15年全国艾滋病患者统计"></echart-line>
+  </div>
+	<echart-china :dimension="mapList" title="前十名银川人才" style="height:800px;"></echart-china>
+	<echart-yinchuan :dimension="mapList2" title="区县分布" style="height:800px;"></echart-yinchuan>
+</div>
+<script src="vue.js"></script>
+<script src="dist/vue-echarts-commons.js"></script>
+<script>
+
+Vue.component('echart', VueECharts.Base);
+
+var data = []
+
+for (let i = 0; i <= 360; i++) {
+	let t = i / 180 * Math.PI
+	let r = Math.sin(2 * t) * Math.cos(2 * t)
+	data.push([r, i])
+}
+
+
+var polar = {
+	title: {
+	  text: '极坐标双数值轴'
+	},
+	legend: {
+	  data: ['line']
+	},
+	polar: {
+	  center: ['50%', '54%']
+	},
+	tooltip: {
+	  trigger: 'axis',
+	  axisPointer: {
+		type: 'cross'
+	  }
+	},
+	angleAxis: {
+	  type: 'value',
+	  startAngle: 0
+	},
+	radiusAxis: {
+	  min: 0
+	},
+	series: [
+	  {
+		coordinateSystem: 'polar',
+		name: 'line',
+		type: 'line',
+		showSymbol: false,
+		data: data
+	  }
+	],
+	animationDuration: 2000
+}
+
+var barData = {
+  categories : [],
+  series : [],
+}
+
+
+var categories = [
+  {data:["衬衫","羊毛衫","sssss","裤子","高跟鞋","袜子"]},
+  {data:["12%","1%","1%","1%","1%","12%"]},
+];
+var series = [
+  {name: '销量', data: [5, 20, 36, 10, 10, 20]}
+]
+
+barData.categories.length = 0;
+categories.forEach(function(cat){
+  barData.categories.push(cat);
+})
+
+barData.series.length =0;
+series.forEach(function(s){
+  barData.series.push(s);
+})
+
+var pieD = [
+	{value: 1232, name: '社保局1'},
+	{value: 5644, name: '社保局2'},
+	{value: 7637, name: '社保局3'},
+	{value: 2334, name: '社保局4'},
+	{value: 2334, name: '公安局'},
+	{value: 2334, name: '民政局'},
+]
+
+var xLine = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+var yLine = [
+   {
+		name:'13年发病数',
+		data:[2407, 1838, 4295, 3806, 3913, 4122, 4085,3878,4037,3284,4422,4404]
+	},{
+		name:'13年死亡数',
+		data:[703, 566, 989, 923, 1098, 966, 991,1102,1084,915,1055,1336]
+	},{
+		name:'14年发病数',
+		data:[2245, 2289, 4221, 3369, 3823,4432,4354,3997,4611,3999,4464,5411]
+	},{
+		name:'14年死亡数',
+		data:[739, 814, 1011, 883, 1035, 1004, 979,943,1136,1148,1215,1410]
+	},{
+		name:'15年发病数',
+		data:[2597, 2294, 4238, 4299,4401,5089,4701,4268,4967,3955,5040,5707]
+	},{
+		name:'15年死亡数',
+		data:[886, 624, 1166, 921, 1117, 1190,989,1085,1172,1006,1352,1500]
+	}
+];
+
+
+var mapList = [];
+
+var list = [{
+    name: '北京',
+    value: 100,
+}, {
+    name: '广东',
+    value: 30,
+}, {
+    name: '广西',
+    value: 30,
+}, {
+    name: '海南',
+    value: 30,
+}, {
+    name: '重庆',
+    value: 30,
+}, {
+    name: '四川',
+    value: 30,
+}, {
+    name: '贵州',
+    value: 30,
+}, {
+    name: '云南',
+    value: 30,
+}, {
+    name: '西藏',
+    value: 30,
+}, {
+    name: '陕西',
+    value: 30,
+}, {
+    name: '甘肃',
+    value: 30,
+}, {
+    name: '青海',
+    value: 30,
+    apct: 30
+}, {
+    name: '银川',
+    value: 30,
+    apct: 30
+}, {
+    name: '新疆',
+    value: 30,
+}, {
+    name: '新疆兵团',
+    value: 30,
+}
+]
+
+var mapList2 = [];
+var yc = [
+	{name: '西夏区', value: 4822023},
+	{name: '兴庆区', value: 731449},
+	{name: '金凤区', value: 6553255},
+	{name: '永宁县', value: 2949131},
+	{name: '贺兰县', value: 38041430},
+	{name: '灵武市', value: 5187582},
+]
+
+var demo = new Vue({
+  el: '#demo',
+  data: {
+    p: pieD,
+	title: '第一个pie',
+  },
+  components: {
+    echartPie: VueECharts.Pie,
+  }
+})
+
+var app = new Vue({
+  el: '#app',
+  data: {
+	xBar: barData.categories,
+	yBar: barData.series,
+	
+	p: [
+		{value: 1232, name: '1'},
+		{value: 5644, name: '2'},
+		{value: 7637, name: '社保局3'},
+		{value: 2334, name: '社保局4'},
+		{value: 2334, name: '公安局'},
+		{value: 2334, name: '民政局'},
+	],
+	
+	xLine: xLine,
+	yLine: yLine,
+	
+	mapList: mapList,
+	mapList2: mapList2,
+  },
+  components: {
+    echartBar: VueECharts.Bar,
+    echartPie: VueECharts.Pie,
+    echartLine: VueECharts.Line,
+    echartChina: VueECharts.ChinaMap,
+    echartYinchuan: VueECharts.YinchuanMap,
+  }
+})
+
+setTimeout(function(){
+
+  //console.log(demo.$refs.pie1.$el)
+
+  for(var l of list){
+    mapList.push(l);
+  }
+  
+  for(var l of yc){
+	mapList2.push(l);
+  }
+  
+}, 1000);
+
+</script>
+</body>
+</html>

@@ -4,8 +4,10 @@
 
 <style>
 .echarts {
-  width: 600px;
-  height: 400px;
+  width: 100%;
+  height: 100%;
+  /* min-width: 400px; */
+  /* min-height: 400px; */
 }
 </style>
 
@@ -13,6 +15,9 @@
 import echarts from 'echarts/lib/echarts'
 import debounce from 'lodash.debounce'
 import { warn } from '../util'
+
+// backgroundColor: '#404A59',
+import './darkyc.js'
 
 // enumerating ECharts events for now
 const ACTION_EVENTS = [
