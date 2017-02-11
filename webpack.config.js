@@ -63,11 +63,11 @@ var demo = merge(base, {
 })
 
 var build = merge(base, {
-  entry: './src/index.js',
+  entry: {'vue-echarts': './src/index.js', 'vue-echarts-commons': './src/commons.js'},
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
-    filename: 'vue-echarts.js',
+    filename: '[name].js',
     library: 'VueECharts',
     libraryTarget: 'umd'
   }
